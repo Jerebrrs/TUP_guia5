@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Ejercicio_3.Model
 {
-    internal class Multa : IImportable
+    public class Multa : IImportable
     {
         public double Importe {  get; set; }
         public Multa() { }
@@ -22,7 +23,12 @@ namespace Ejercicio_3.Model
 
         public bool Importar(string xml)
         {
-            throw new NotImplementedException();
+            Regex regex = new Regex(@"<multa>{[\w]+?}</multa>", RegexOptions.IgnoreCase);
+            Match match = regex.Match(xml);
+            if (match.Groups.Count != 2) return false;
+
+            Importe =Convert.ToDouble( match.Groups[1].Value);
+            return true;
         }
     }
 }

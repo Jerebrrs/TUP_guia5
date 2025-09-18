@@ -1,13 +1,7 @@
 ﻿using Ejercicio_3.Model;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Ejercicio_3
@@ -23,9 +17,9 @@ namespace Ejercicio_3
         {
             List<Vehiculo> vehiculos = new List<Vehiculo>();
 
-            string expresion = textBox1.Text;
+            string expresion = listBox1.Text;
 
-            Regex regex = new Regex(@"");
+            Regex regex = new Regex(@"<multa>[\s\S]*?</multa>",RegexOptions.IgnoreCase);
 
             Match math =regex.Match(expresion);
 
@@ -33,14 +27,21 @@ namespace Ejercicio_3
             while (math.Success)
             {
                 string cadena = math.Value;
-                Vehiculo neuvo = new Vehiculo();
+                Vehiculo nuevo = new Vehiculo();
 
-                if (neuvo.Importar(cadena))
+                if (nuevo.Importar(cadena))
                 {
 
                     vehiculos.Sort();
-                    int idx = vehiculos.BinarySearch(neuvo);
-                    if (idx >-1) { vehiculos[idx] } else { vehiculos.Add(neuvo); }
+                    int idx = vehiculos.BinarySearch(nuevo);
+                    if (idx > -1) 
+                    {
+                        for (int i = 0; i < nuevo.CantidadDeMultas; i++)
+                        {
+                            vehiculos[idx].AgregarMulta(nuevo.VerMulta(i));
+                        }
+
+                    } else { vehiculos.Add(nuevo); }
 
                 }
 

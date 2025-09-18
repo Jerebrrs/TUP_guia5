@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Ejercicio_3.Model
@@ -61,8 +62,15 @@ namespace Ejercicio_3.Model
 
         public bool Importar(string xml)
         {
-          
-            return false;
+            Regex regex = new Regex(@"<patente>{[\s\S]+?}</patente>",RegexOptions.IgnoreCase);
+            Match match = regex.Match(xml);
+            if (match.Groups.Count != 2) return false;
+            
+            Patente = match.Groups[1].Value;
+            Multa m = new Multa();
+            m.Importar(xml);
+            AgregarMulta(m);
+            return true;
         }
 
 
