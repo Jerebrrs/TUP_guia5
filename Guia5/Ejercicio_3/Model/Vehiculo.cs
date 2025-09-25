@@ -33,7 +33,7 @@ namespace Ejercicio_3.Model
 
         public Multa VerMulta(int idx)
         {
-            if (idx >=0)
+            if (idx >=0 && idx < multas.Count)
             {
                 return multas[idx];
                 
@@ -62,7 +62,7 @@ namespace Ejercicio_3.Model
 
         public bool Importar(string xml)
         {
-            Regex regex = new Regex(@"<patente>{[\s\S]+?}</patente>",RegexOptions.IgnoreCase);
+            Regex regex = new Regex(@"[\s]*?<patente>([\w\s]+?)</patente>[\s]*?", RegexOptions.IgnoreCase);
             Match match = regex.Match(xml);
             if (match.Groups.Count != 2) return false;
             

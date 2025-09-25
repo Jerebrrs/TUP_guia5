@@ -23,7 +23,7 @@ namespace Ejercicio_3.Model
 
         public bool Importar(string xml)
         {
-            Regex regex = new Regex(@"<multa>{[\w]+?}</multa>", RegexOptions.IgnoreCase);
+            Regex regex = new Regex(@"[\S\s]*?<importe>([\w\s,]+?)</importe>[\S\s]*?", RegexOptions.IgnoreCase);
             Match match = regex.Match(xml);
             if (match.Groups.Count != 2) return false;
 

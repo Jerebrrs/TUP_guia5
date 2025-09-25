@@ -17,16 +17,18 @@ namespace Ejercicio_3
         {
             List<Vehiculo> vehiculos = new List<Vehiculo>();
 
-            string expresion = listBox1.Text;
+            string expresion = textBox1.Text;
 
             Regex regex = new Regex(@"<multa>[\s\S]*?</multa>",RegexOptions.IgnoreCase);
 
             Match math =regex.Match(expresion);
 
-
+            listBox1.Items.Clear();
             while (math.Success)
             {
+                
                 string cadena = math.Value;
+                listBox1.Items.Add(cadena);
                 Vehiculo nuevo = new Vehiculo();
 
                 if (nuevo.Importar(cadena))
@@ -47,10 +49,17 @@ namespace Ejercicio_3
 
                 math = math.NextMatch(); //aca pregunto si el nuevo match exxiste asi e rompe el bucle
             }
+
+            listBox1.Items.Clear();
             foreach (Vehiculo v in vehiculos)
             {
-                listBox1.Items.Add(v);
+                listBox1.Items.Add(v.ToString().Trim());
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
